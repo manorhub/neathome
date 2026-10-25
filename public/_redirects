@@ -1,0 +1,5 @@
+# Redirect the Pages preview subdomain to the production domain.
+# Only requests to neat-apartment.pages.dev match the full-URL source,
+# so neatapartment.org itself does not redirect to itself.
+https://neat-apartment.pages.dev/* https://neatapartment.org/:splat 301
+http://neat-apartment.pages.dev/* https://neatapartment.org/:splat 301

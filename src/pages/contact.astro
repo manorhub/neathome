@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+// CONFIG PLACEHOLDER: CONTACT_EMAIL — no real contact email has been supplied.
+// Do NOT publish an invented address here. When the owner supplies a real
+// email, replace the notice below with a functional mailto link and test it.
+---
+<BaseLayout title="Contact" description="Contact Neat Apartment. Contact details will be added once a real email address is configured by the owner." path="/contact/" breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Contact' }]}>
+  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} />
+  <h1 class="font-serif text-4xl">Contact</h1>
+  <p class="mt-4 max-w-3xl">
+    Contact details for Neat Apartment will be added here once the owner configures a real email address. No contact form is published on this page, and no email address is shown, because none has been supplied yet.
+  </p>
+  <p class="mt-4 max-w-3xl text-muted">
+    If you found a broken link or an error in an article, please note the article URL and the problem so it can be fixed when contact details are live.
+  </p>
+</BaseLayout>

@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { CATEGORIES } from '../../config/site';
+import { publishedPosts } from '../../lib/internal-links';
+import { readingTimeMinutes } from '../../lib/seo';
+const cat = CATEGORIES.find((c) => c.slug === 'pantry-fridge')!;
+const posts = (await publishedPosts()).filter((p) => p.data.category === cat.slug);
+const related = CATEGORIES.filter((c) => c.slug !== cat.slug).slice(0, 3);
+---
+<BaseLayout title={cat.title} description={cat.description} path={`/${cat.slug}/`} ogImage={cat.image} breadcrumbs={[{ label: 'Home', href: '/' }, { label: cat.title }]}>
+  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: cat.title }]} />
+  <h1 class="font-serif text-4xl">{cat.title}</h1>
+  <img src={cat.image} alt={cat.imageAlt} width="800" height="500" loading="eager" class="mt-6 h-auto w-full rounded border border-border object-cover" />
+  <p class="mt-6 max-w-3xl text-lg">{cat.intro}</p>
+  <section aria-labelledby="articles-heading" class="mt-10">
+    <h2 id="articles-heading">Articles in {cat.title}</h2>
+    {posts.length > 0 ? (
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => <ArticleCard title={post.data.title} description={post.data.description} href={`/${post.id.replace(/\.md$/, '')}/`} category={post.data.category} pubDate={post.data.pubDate} heroImage={post.data.heroImage} heroImageAlt={post.data.heroImageAlt} readingTime={readingTimeMinutes(post.body ?? '')} />)}
+      </div>
+    ) : (
+      <p class="mt-6 rounded border border-border bg-white p-6 text-muted">No published articles in this category yet. Articles in draft review are excluded from this page and will appear here once they are fully written and checked.</p>
+    )}
+  </section>
+  <section aria-labelledby="related-heading" class="mt-10">
+    <h2 id="related-heading">Related Categories</h2>
+    <ul class="mt-4 list-disc pl-6">{related.map((c) => <li><a href={`/${c.slug}/`}>{c.title}</a></li>)}</ul>
+  </section>
+</BaseLayout>

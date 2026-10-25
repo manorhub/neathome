@@ -1,0 +1,1 @@
+{"dependencies":{"astro":"^5.16.0"},"devDependencies":{"@astrojs/check":"^0.9.6","@astrojs/sitemap":"^3.6.0","@tailwindcss/vite":"^4.1.18","tailwindcss":"^4.1.18","typescript":"^5.9.3"},"name":"neat-apartment","private":true,"scripts":{"build":"astro build","check":"astro check","dev":"astro dev","preview":"astro preview"},"type":"module","version":"0.1.0"}

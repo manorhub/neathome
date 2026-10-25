@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { CATEGORIES, SITE } from '../config/site';
+import { publishedPosts } from '../lib/internal-links';
+import { readingTimeMinutes } from '../lib/seo';
+
+const posts = await publishedPosts();
+const featured = posts.slice(0, 3);
+const latest = posts.slice(0, 6);
+const planned = [
+  'Small Kitchen Organization Ideas for Renters',
+  'Pantry Organization Ideas That Actually Stay Tidy',
+  'Under Sink Organization: Kitchen and Bathroom',
+  'Spice Rack Ideas for Small Kitchens',
+  'Fridge Organization Bins Worth Buying',
+  'Drawer Organization: Kitchen Drawers in 20 Minutes',
+  'Over the Door Organizer Ideas for Small Apartments',
+  'Under Bed Storage Ideas for Small Bedrooms',
+  'Slim Rolling Cart Ideas for Narrow Spaces',
+  'No-Drill Organization Ideas for Renters',
+];
+---
+<BaseLayout title={SITE.name} description={SITE.description} path="/">
+  <section aria-labelledby="hero-heading" class="rounded border border-border bg-white p-8">
+    <div class="grid items-center gap-8 md:grid-cols-2">
+      <div>
+        <h1 id="hero-heading" class="font-serif text-4xl md:text-5xl">Make Every Inch of Your Apartment Count</h1>
+        <p class="mt-4 text-lg text-muted">
+          Practical organization ideas, small-kitchen solutions, and renter-friendly storage tips to help you create a home that works better.
+        </p>
+        <p class="mt-6 flex flex-wrap gap-3">
+          <a href="#categories" class="rounded bg-forest px-5 py-3 text-white">Explore Organization Ideas</a>
+          <a href="/kitchen-organization/" class="rounded border border-forest px-5 py-3 text-forest">Small Kitchen Ideas</a>
+        </p>
+      </div>
+      <img src="/images/photos/homepage-apartment.webp" alt="A small, bright, organized apartment kitchen" width="1200" height="800" loading="eager" class="h-auto w-full rounded border border-border" />
+    </div>
+  </section>
+
+  <section id="categories" aria-labelledby="categories-heading" class="mt-12">
+    <h2 id="categories-heading">Browse by Category</h2>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {CATEGORIES.map((c) => (
+        <CategoryCard title={c.title} href={`/${c.slug}/`} description={c.description} image={c.image} imageAlt={c.imageAlt} />
+      ))}
+    </div>
+  </section>
+
+  <section aria-labelledby="featured-heading" class="mt-12">
+    <h2 id="featured-heading">Featured Guides</h2>
+    {featured.length > 0 ? (
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {featured.map((post) => (
+          <ArticleCard
+            title={post.data.title}
+            description={post.data.description}
+            href={`/${post.id.replace(/\.md$/, '')}/`}
+            category={post.data.category}
+            pubDate={post.data.pubDate}
+            heroImage={post.data.heroImage}
+            heroImageAlt={post.data.heroImageAlt}
+            readingTime={readingTimeMinutes(post.body ?? '')}
+          />
+        ))}
+      </div>
+    ) : (
+      <div class="mt-6 rounded border border-border bg-white p-6">
+        <p>
+          <strong>Guides in progress — not yet published.</strong> The first guides for Neat Apartment are currently in draft and editorial review. They are listed below as planned topics only, not as published articles, and will appear here once they are fully written and checked.
+        </p>
+        <ul class="mt-4 list-disc pl-6">
+          {planned.map((t) => <li>{t} — planned, not yet published</li>)}
+        </ul>
+      </div>
+    )}
+  </section>
+
+  <section aria-labelledby="gallery-heading" class="mt-12">
+    <h2 id="gallery-heading">Ideas in Pictures</h2>
+    <p class="mt-3 max-w-3xl text-muted">A quick look at the storage ideas in the latest guides. Each photo links to its full guide.</p>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <a href="/small-kitchen-organization-ideas-for-renters/" class="rounded border border-border bg-white p-3"><img src="/images/photos/small-kitchen.webp" alt="Open kitchen shelves with jars and storage bins, with a stove and sink visible" width="1200" height="800" loading="lazy" class="h-auto w-full rounded" /><p class="mt-2">Open kitchen shelves with jars and bins, stove and sink in view</p></a>
+      <a href="/pantry-organization-ideas-that-stay-tidy/" class="rounded border border-border bg-white p-3"><img src="/images/photos/pantry.webp" alt="A pantry shelf with clear storage bins, cans and jars" width="1200" height="800" loading="lazy" class="h-auto w-full rounded" /><p class="mt-2">A pantry shelf with clear bins, cans and jars</p></a>
+      <a href="/under-sink-organization/" class="rounded border border-border bg-white p-3"><img src="/images/photos/under-sink.webp" alt="An open under-sink cabinet with a two-tier organizer, cleaning bottles and pipes visible" width="1200" height="800" loading="lazy" class="h-auto w-full rounded" /><p class="mt-2">An open under-sink cabinet with a two-tier organizer and cleaning bottles</p></a>
+      <a href="/small-kitchen-organization-ideas-for-renters/" class="rounded border border-border bg-white p-3"><img src="/images/photos/homepage-apartment.webp" alt="A small, bright, organized apartment kitchen" width="1200" height="800" loading="lazy" class="h-auto w-full rounded" /><p class="mt-2">A small, bright, organized apartment kitchen</p></a>
+    </div>
+  </section>
+
+  <section aria-labelledby="solutions-heading" class="mt-12">
+    <h2 id="solutions-heading">Small Space Solutions</h2>
+    <p class="mt-3 max-w-3xl text-muted">
+      Small spaces do not need more stuff. They need a system: use vertical space, give every cabinet a zone, and keep daily items where you actually reach for them.
+    </p>
+    <ul class="mt-4 grid gap-4 sm:grid-cols-2">
+      <li class="rounded border border-border bg-white p-5"><a href="/kitchen-organization/">Making use of vertical space →</a><p class="mt-1 text-muted">Shelves, hooks, and tall storage beat wider furniture in a small kitchen.</p></li>
+      <li class="rounded border border-border bg-white p-5"><a href="/kitchen-organization/">Organizing small kitchen cabinets →</a><p class="mt-1 text-muted">Measure first, zone by use, and keep daily items at eye level.</p></li>
+      <li class="rounded border border-border bg-white p-5"><a href="/pantry-fridge/">Creating more pantry storage →</a><p class="mt-1 text-muted">Bins and labels help only after you group food by how you cook.</p></li>
+      <li class="rounded border border-border bg-white p-5"><a href="/bathroom-organization/">Maximizing under-sink storage →</a><p class="mt-1 text-muted">Work around plumbing, contain cleaning supplies, and leave clearance for doors.</p></li>
+      <li class="rounded border border-border bg-white p-5"><a href="/small-apartment-storage/">Finding renter-friendly storage solutions →</a><p class="mt-1 text-muted">No-drill and removable options protect your deposit and your walls.</p></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="renter-heading" class="mt-12">
+    <h2 id="renter-heading">Renter-Friendly Organization</h2>
+    <p class="mt-3 max-w-3xl">
+      Renters should check lease requirements and product installation instructions before using adhesive or mounted products. Adhesive hooks, tension rods, over-door organizers, and freestanding shelves usually avoid drilling, but surfaces, weight limits, and removal instructions still matter. When in doubt, choose a removable option and test it in a small, hidden spot first.
+    </p>
+  </section>
+
+  <section aria-labelledby="latest-heading" class="mt-12">
+    <h2 id="latest-heading">Latest Guides</h2>
+    {latest.length > 0 ? (
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {latest.map((post) => (
+          <ArticleCard
+            title={post.data.title}
+            description={post.data.description}
+            href={`/${post.id.replace(/\.md$/, '')}/`}
+            category={post.data.category}
+            pubDate={post.data.pubDate}
+            heroImage={post.data.heroImage}
+            heroImageAlt={post.data.heroImageAlt}
+            readingTime={readingTimeMinutes(post.body ?? '')}
+          />
+        ))}
+      </div>
+    ) : (
+      <p class="mt-6 rounded border border-border bg-white p-6 text-muted">
+        No guides have been published yet. New guides will appear here in publication order, newest first, once they pass editorial review. Drafts and future-dated articles are excluded.
+      </p>
+    )}
+  </section>
+</BaseLayout>

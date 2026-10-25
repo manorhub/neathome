@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+<BaseLayout title="Privacy Policy" description="Privacy policy template for Neat Apartment, covering only the data practices actually configured on this static site." path="/privacy-policy/" breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Privacy Policy' }]}>
+  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Privacy Policy' }]} />
+  <h1 class="font-serif text-4xl">Privacy Policy</h1>
+  <p class="mt-4 max-w-3xl text-muted">
+    This page is a template describing only the practices actually configured on this site at the time of writing. Owner review is required before relying on it for legal purposes. See the owner-review notes at the bottom of this page.
+  </p>
+  <h2 class="mt-8">Information collected</h2>
+  <p class="mt-3 max-w-3xl">
+    This is a static website. It does not currently run a contact form, newsletter subscription, user account system, or comment system, and it does not collect information through those channels.
+  </p>
+  <h2 class="mt-8">Cookies and analytics</h2>
+  <p class="mt-3 max-w-3xl">
+    No analytics, advertising pixel, or tracking script is currently activated on this site. If Google Analytics 4, a Pinterest Tag, or any other analytics tool is activated in the future, this policy must be updated before activation to describe what is collected and why.
+  </p>
+  <h2 class="mt-8">External links</h2>
+  <p class="mt-3 max-w-3xl">
+    Articles may link to external sites, including Amazon.com. Those sites have their own privacy policies. This site is not responsible for the content or privacy practices of external sites.
+  </p>
+  <h2 class="mt-8">Affiliate links</h2>
+  <p class="mt-3 max-w-3xl">
+    Affiliate links, when enabled, may set cookies through the destination site (for example, Amazon) to track a qualifying purchase. See the <a href="/affiliate-disclosure/">Affiliate Disclosure</a> page.
+  </p>
+  <h2 class="mt-8">Contact requests</h2>
+  <p class="mt-3 max-w-3xl">
+    No contact email is currently published on this site. When a real contact email is configured, this section will be updated with how contact messages are handled and retained.
+  </p>
+  <h2 class="mt-8">Data retention and choices</h2>
+  <p class="mt-3 max-w-3xl">
+    Because this site does not currently collect form submissions or account data, there is no user data retention system to describe. If that changes, this policy must be updated first.
+  </p>
+  <h2 class="mt-8">Owner-review notes</h2>
+  <ul class="mt-3 list-disc pl-6">
+    <li>Confirm whether Cloudflare Pages hosting sets any cookies for this domain and update the cookies section if needed.</li>
+    <li>Confirm business entity, mailing address, and contact details before adding them — none are invented here.</li>
+    <li>Update this policy before enabling analytics, a newsletter, a contact form, or any third-party integration.</li>
+  </ul>
+</BaseLayout>

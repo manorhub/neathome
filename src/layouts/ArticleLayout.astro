@@ -1,0 +1,95 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import AffiliateDisclosure from '../components/AffiliateDisclosure.astro';
+import MeasureFirstBox from '../components/MeasureFirstBox.astro';
+import ProductComparison from '../components/ProductComparison.astro';
+import RelatedArticles from '../components/RelatedArticles.astro';
+import { categoryBySlug } from '../config/site';
+import { AFFILIATE } from '../config/affiliate';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  readingTime: number;
+  related: CollectionEntry<'posts'>[];
+}
+const { post, readingTime, related } = Astro.props;
+const { title, description, pubDate, updatedDate, category, heroImage, heroImageAlt } = post.data;
+const cat = categoryBySlug(category);
+const slug = post.id.replace(/\.md$/, '');
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  ...(cat ? [{ label: cat.title, href: `/${cat.slug}/` }] : []),
+  { label: title },
+];
+---
+<BaseLayout
+  title={title}
+  description={description}
+  path={`/${slug}/`}
+  ogImage={heroImage}
+  ogType="article"
+  article={{
+    pubDate: pubDate.toISOString(),
+    updatedDate: updatedDate?.toISOString(),
+    image: heroImage,
+  }}
+  breadcrumbs={breadcrumbs}
+>
+  <article>
+    <Breadcrumbs items={breadcrumbs} />
+    {cat && <p class="text-sm font-bold uppercase tracking-wide text-forest">{cat.title}</p>}
+    <h1 class="mt-2 font-serif text-4xl">{title}</h1>
+    <p class="mt-3 text-lg text-muted">{description}</p>
+    <p class="mt-3 text-sm text-muted">
+      Published
+      <time datetime={pubDate.toISOString()}>{pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+      {updatedDate && (
+        <>
+          {' '}· Updated <time datetime={updatedDate.toISOString()}>{updatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+        </>
+      )}
+      {' '}· {readingTime} min read · Published by Neat Apartment
+    </p>
+
+    {post.data.affiliateContent && <div class="mt-6"><AffiliateDisclosure /></div>}
+    {!AFFILIATE.enabled && post.data.affiliateContent && (
+      <p class="mt-4 rounded border border-border bg-white p-4 text-sm text-muted">
+        {AFFILIATE.warning} Product recommendations for this guide are in draft review and will be added only after live Amazon.com verification.
+      </p>
+    )}
+
+    <img
+      src={heroImage}
+      alt={heroImageAlt}
+      width="1200"
+      height="750"
+      loading="eager"
+      class="mt-6 h-auto w-full rounded border border-border object-cover"
+    />
+
+    <div class="prose mt-8 max-w-none">
+      <slot />
+    </div>
+
+    <MeasureFirstBox topic="your cabinet, drawer, shelf, or refrigerator" />
+
+    <section aria-labelledby="products-heading" class="mt-8">
+      <h2 id="products-heading">Product Recommendations</h2>
+      <p class="mt-2 text-muted">
+        Product recommendations for this guide are not yet published. They will be added only after each product is checked against its live Amazon.com listing for dimensions, rating, review count, Prime eligibility, and stock status. No rating, price, dimension, or stock claim is made in the meantime.
+      </p>
+      <ProductComparison products={[]} />
+    </section>
+
+    <section aria-labelledby="takeaway-heading" class="mt-8">
+      <h2 id="takeaway-heading">Final Editorial Note</h2>
+      <p>
+        Start by measuring the space you actually have, then choose one zone to organize first. A small, finished change you can maintain beats a large reset that falls apart in a week.
+      </p>
+    </section>
+
+    <RelatedArticles posts={related} />
+  </article>
+</BaseLayout>

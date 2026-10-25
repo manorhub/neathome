@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+<BaseLayout title="About" description="What Neat Apartment covers: practical home organization for small kitchens, apartments, and rental homes in the United States." path="/about/" breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'About' }]}>
+  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
+  <h1 class="font-serif text-4xl">About Neat Apartment</h1>
+  <p class="mt-4 max-w-3xl">
+    Neat Apartment covers practical home organization for small kitchens, apartments, and rental homes in the United States. The focus is on solving real storage problems first: measuring a space, choosing a zone, and picking an organizer that fits the space you actually have.
+  </p>
+  <h2 class="mt-8">Who this site is for</h2>
+  <ul class="mt-3 list-disc pl-6">
+    <li>US renters who cannot drill into walls or remodel a kitchen.</li>
+    <li>People living in small apartments, dorms, and first apartments.</li>
+    <li>People with limited kitchen storage who want affordable, practical solutions.</li>
+  </ul>
+  <h2 class="mt-8">Editorial approach</h2>
+  <p class="mt-3 max-w-3xl">
+    Articles explain the problem, the measurements that matter, and the trade-offs before recommending a product. Product recommendations, when published, are added only after the live Amazon.com listing is checked for dimensions, rating, review count, Prime eligibility, and stock status. No product rating, price, dimension, or stock claim is invented.
+  </p>
+  <p class="mt-4 max-w-3xl">
+    This site does not claim an editorial team, professional qualifications, testing laboratory, or company history that does not exist. If a future author profile is configured, it will be shown then.
+  </p>
+  <p class="mt-6"><a href="/affiliate-disclosure/">Read our Affiliate Disclosure →</a></p>
+</BaseLayout>

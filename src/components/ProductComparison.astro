@@ -1,0 +1,35 @@
+---
+import type { Product } from './ProductCard.astro';
+interface Props {
+  products: Product[];
+}
+const { products } = Astro.props;
+---
+{products.length > 0 ? (
+  <div class="my-6 overflow-x-auto">
+    <table class="w-full min-w-[640px] border-collapse border border-border bg-white text-left">
+      <caption class="sr-only">Product comparison</caption>
+      <thead>
+        <tr class="bg-sage">
+          <th class="border border-border p-3">Product type</th>
+          <th class="border border-border p-3">Best use case</th>
+          <th class="border border-border p-3">Important limitation</th>
+        </tr>
+      </thead>
+      <tbody>
+        {products.map((p) => (
+          <tr>
+            <td class="border border-border p-3">{p.type} — {p.name}</td>
+            <td class="border border-border p-3">{p.bestUseCase}</td>
+            <td class="border border-border p-3">{p.drawback}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <p class="mt-2 text-sm text-muted">Dimensions, prices, and stock status are shown only after live listing verification. Do not rely on this table until that check is recorded.</p>
+  </div>
+) : (
+  <p class="my-6 rounded border border-border bg-white p-4 text-muted">
+    Comparison table will appear here once product recommendations for this guide have been verified against live Amazon.com listings. No specifications are invented in the meantime.
+  </p>
+)}

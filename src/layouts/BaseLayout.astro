@@ -1,0 +1,47 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SEOHead from '../components/SEOHead.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  ogImage?: string;
+  ogType?: string;
+  article?: { pubDate?: string; updatedDate?: string; image?: string };
+  breadcrumbs?: { label: string; href?: string }[];
+  noindex?: boolean;
+}
+const props = Astro.props;
+---
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Redirect the Pages subdomain to the production domain in the browser.
+         A server-side 301 for pages.dev needs Cloudflare Bulk Redirects (see
+         docs/deployment.md); the current API token is Pages-only, so this
+         client redirect is the working fallback. It only fires on the exact
+         neat-apartment.pages.dev host, never on neatapartment.org, and
+         deployment-preview hosts like <hash>.neat-apartment.pages.dev are
+         left alone. -->
+    <script is:inline>
+      if (window.location.hostname === 'neat-apartment.pages.dev') {
+        window.location.replace('https://neatapartment.org' + window.location.pathname + window.location.search + window.location.hash);
+      }
+    </script>
+    <SEOHead {...props} />
+  </head>
+  <body>
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:m-2 focus:bg-white focus:p-2">Skip to main content</a>
+    <Header />
+    <main id="main" class="mx-auto max-w-6xl px-4 py-8">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

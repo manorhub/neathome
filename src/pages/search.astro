@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { publishedPosts } from '../lib/internal-links';
+
+const posts = await publishedPosts();
+const index = posts.map((p) => ({
+  title: p.data.title,
+  description: p.data.description,
+  href: `/${p.id.replace(/\.md$/, '')}/`,
+  category: p.data.category,
+}));
+---
+<BaseLayout title="Search" description="Search published Neat Apartment guides by title and description." path="/search/" noindex>
+  <h1 class="font-serif text-4xl">Search Guides</h1>
+  <p class="mt-3 text-muted">Search published article titles and descriptions only. Drafts are excluded.</p>
+  <form id="search-form" class="mt-6 flex gap-2" role="search">
+    <label class="sr-only" for="q">Search articles</label>
+    <input id="q" name="q" type="search" placeholder="Try: pantry, kitchen, under sink" class="flex-1 rounded border border-border bg-white px-4 py-3" autocomplete="off" />
+    <button type="submit" class="rounded bg-forest px-5 py-3 text-white">Search</button>
+  </form>
+  <div id="results" class="mt-6" aria-live="polite"></div>
+  <script define:vars={{ index }}>
+    const form = document.getElementById('search-form');
+    const input = document.getElementById('q');
+    const results = document.getElementById('results');
+    function render(query) {
+      const q = query.trim().toLowerCase();
+      if (!q) {
+        results.innerHTML = '<p class="text-muted">Type a search term above to see published guides.</p>';
+        return;
+      }
+      const hits = index.filter((p) => (p.title + ' ' + p.description).toLowerCase().includes(q));
+      if (hits.length === 0) {
+        results.innerHTML = '<p>No published guides matched that search. Try a different term, such as kitchen, pantry, or storage.</p>';
+        return;
+      }
+      results.innerHTML = '<ul class="space-y-4">' + hits.map((p) => `<li class="rounded border border-border bg-white p-4"><a href="${p.href}"><strong>${p.title}</strong></a><p class="text-muted">${p.description}</p></li>`).join('') + '</ul>';
+    }
+    render('');
+    form.addEventListener('submit', (e) => { e.preventDefault(); render(input.value); });
+    input.addEventListener('input', () => render(input.value));
+  </script>
+</BaseLayout>

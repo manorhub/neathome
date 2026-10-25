@@ -1,0 +1,90 @@
+---
+import { SITE } from '../config/site';
+import { canonicalUrl } from '../lib/seo';
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  ogImage?: string;
+  ogType?: string;
+  article?: {
+    pubDate?: string;
+    updatedDate?: string;
+    image?: string;
+  };
+  breadcrumbs?: BreadcrumbItem[];
+  noindex?: boolean;
+}
+const { title, description, path, ogImage, ogType = 'website', article, breadcrumbs, noindex = false } = Astro.props;
+const canonical = canonicalUrl(path);
+const image = ogImage ? (ogImage.startsWith('http') ? ogImage : `${SITE.url}${ogImage}`) : `${SITE.url}/images/hero.svg`;
+const fullTitle = title === SITE.name ? title : `${title} | ${SITE.name}`;
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE.name,
+  url: SITE.url,
+  inLanguage: SITE.locale,
+};
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.name,
+  url: SITE.url,
+};
+const breadcrumbJsonLd = breadcrumbs
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbs.map((b, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: b.label,
+        ...(b.href ? { item: canonicalUrl(b.href) } : {}),
+      })),
+    }
+  : null;
+const articleJsonLd =
+  ogType === 'article'
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: title,
+        description,
+        url: canonical,
+        image,
+        inLanguage: SITE.locale,
+        ...(article?.pubDate ? { datePublished: article.pubDate } : {}),
+        ...(article?.updatedDate ? { dateModified: article.updatedDate } : {}),
+        author: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+        publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+      }
+    : null;
+---
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={image} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+<!-- Pinterest domain verification, supplied by the owner from Pinterest on 2026-10-24 for claiming neatapartment.org. See docs/pinterest-setup.md. -->
+<meta name="p:domain_verify" content="e7298b0434666a8fbdb1ca5f693e6d32" />
+<script type="application/ld+json" set:html={JSON.stringify(websiteJsonLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
+{breadcrumbJsonLd && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />}
+{articleJsonLd && <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />}

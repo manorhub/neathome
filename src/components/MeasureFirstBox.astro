@@ -1,0 +1,15 @@
+---
+interface Props {
+  topic?: string;
+}
+const { topic = 'your cabinet, drawer, shelf, or refrigerator' } = Astro.props;
+---
+<aside class="my-6 rounded border-2 border-forest bg-white p-5" aria-label="Measure before you buy">
+  <h2 class="font-sans text-lg font-bold text-forest">Measure Before You Buy</h2>
+  <p class="mt-2">
+    Measure the available width, height, and depth of {topic}. Compare those
+    measurements with the product's listed dimensions, including clearance for
+    doors, drawers, plumbing, and handles. If you rent, also check your lease
+    and the product's installation instructions before using adhesive or mounted products.
+  </p>
+</aside>

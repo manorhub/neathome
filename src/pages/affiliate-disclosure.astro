@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+<BaseLayout title="Affiliate Disclosure" description="Neat Apartment is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program." path="/affiliate-disclosure/" breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Affiliate Disclosure' }]}>
+  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Affiliate Disclosure' }]} />
+  <h1 class="font-serif text-4xl">Affiliate Disclosure</h1>
+  <p class="mt-4 max-w-3xl">
+    As an Amazon Associate I earn from qualifying purchases.
+  </p>
+  <p class="mt-4 max-w-3xl">
+    Neat Apartment participates in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com. When you click an Amazon link on this site and make a qualifying purchase, this website may earn a commission at no additional cost to you.
+  </p>
+  <p class="mt-4 max-w-3xl">
+    Amazon prices and availability may change. The price shown on Amazon at the time of purchase is the price that applies. This site does not show fixed prices in articles, and it does not promise that a product is in stock without verification.
+  </p>
+  <p class="mt-4 max-w-3xl">
+    Affiliate links on this site are currently disabled pending confirmation that neatapartment.org is registered in Amazon Associates Central and that a real Associate tracking tag has been configured. Until then, no affiliate button on this site links to Amazon.
+  </p>
+</BaseLayout>

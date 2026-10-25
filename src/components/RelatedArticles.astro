@@ -1,0 +1,24 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { readingTimeMinutes } from '../lib/seo';
+interface Props {
+  posts: CollectionEntry<'posts'>[];
+}
+const { posts } = Astro.props;
+---
+{posts.length > 0 && (
+  <section aria-labelledby="related-heading" class="mt-12">
+    <h2 id="related-heading">Related Articles</h2>
+    <ul class="mt-4 grid gap-4 sm:grid-cols-3">
+      {posts.map((post) => (
+        <li class="rounded border border-border bg-white p-4">
+          <a href={`/${post.id.replace(/\.md$/, '')}/`}>
+            <span class="font-serif text-lg">{post.data.title}</span>
+          </a>
+          <p class="mt-2 text-sm text-muted">{post.data.description}</p>
+          <p class="mt-2 text-sm text-muted">{readingTimeMinutes(post.body ?? '')} min read</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

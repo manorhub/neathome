@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://neatapartment.org/sitemap-index.xml

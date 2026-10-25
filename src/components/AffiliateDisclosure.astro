@@ -1,0 +1,15 @@
+---
+interface Props {
+  context?: string;
+}
+const { context = 'article' } = Astro.props;
+---
+<aside class="rounded border border-sage bg-sage/40 p-4 text-sm" aria-label="Affiliate disclosure">
+  <p>
+    <strong>Affiliate disclosure:</strong> As an Amazon Associate I earn from qualifying purchases.
+    {context === 'article'
+      ? ' Qualifying purchases may earn this website a commission at no additional cost to you.'
+      : ''}
+    See our <a href="/affiliate-disclosure/">Affiliate Disclosure</a> page for details.
+  </p>
+</aside>
